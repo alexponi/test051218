@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe "Users", :type => :request do
   describe "GET /users/:id" do
     it "returns status 404" do
-      get user_path(id: 1)
+      get user_path(User.last.id + 1)
       expect(response).to have_http_status(404)
     end
   end
@@ -58,7 +58,7 @@ RSpec.describe "Users", :type => :request do
       post '/users', params: { user: { email: Faker::Internet.email,
                                       password: 'password',
                                       name: Faker::Name.name } }
-      expect(JSON.parse(response.body)['data']).to include_json({id: User.last.id.to_s })
+      expect(JSON.parse(response.body)['data']).to include_json({id: User.last.id })
     end
   end
 
