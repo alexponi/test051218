@@ -2,15 +2,17 @@
 require 'bcrypt'
 
 class UsersController < ApplicationController
+
   def index
     @users = User.all
-    render json: @users
+    render json: json_string = UserSerializer.new(@users).serialized_json
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: json_string = UserSerializer.new(@user).serialized_json,
+                   status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -19,7 +21,7 @@ class UsersController < ApplicationController
   def show
     begin
       @user = User.find(params[:id])
-      render json: @user
+      render json: json_string = UserSerializer.new(@user).serialized_json
     rescue ActiveRecord::RecordNotFound
       head :not_found
     end

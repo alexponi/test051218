@@ -22,8 +22,10 @@ RSpec.describe "Users", :type => :request do
   describe "GET /users" do
     it "returns list of users" do
       get users_path
-      expect(response.body).to include_json([{ email: user.email, name: user.name },
-                                             { email: user_2.email, name: user_2.name }])
+      expect(JSON.parse(response.body)['data'][0]['attributes']).to include_json({ email: user.email,
+                                                                                   name: user.name })
+      expect(JSON.parse(response.body)['data'][1]['attributes']).to include_json({ email: user_2.email,
+                                                                                   name: user_2.name })
     end
   end
 
@@ -36,8 +38,9 @@ RSpec.describe "Users", :type => :request do
 
   describe "GET /users/:id" do
     it "returns email and name for user" do
-      get user_path(user)
-      expect(response.body).to include_json({ email: user.email, name: user.name })
+      get user_path(user.id)
+      expect(JSON.parse(response.body)['data']['attributes']).to include_json({ email: user.email,
+                                                                                name: user.name })
     end
   end
 
@@ -55,7 +58,7 @@ RSpec.describe "Users", :type => :request do
       post '/users', params: { user: { email: Faker::Internet.email,
                                       password: 'password',
                                       name: Faker::Name.name } }
-      expect(response.body).to include_json({id: User.last.id })
+      expect(JSON.parse(response.body)['data']).to include_json({id: User.last.id.to_s })
     end
   end
 
