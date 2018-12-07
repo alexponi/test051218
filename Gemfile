@@ -34,6 +34,10 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rubocop'
   gem 'pry-rails'
+  gem 'rspec-rails'
+  gem 'rspec-json_expectations'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
