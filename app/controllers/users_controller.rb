@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       render json: { data: { id: @user.id,
-                             password_digest: @user.password.digest,
+                             password_digest: @user.password_digest,
                              key: @user.api_key }
                     }, status: :created
     else
