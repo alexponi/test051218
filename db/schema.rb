@@ -23,5 +23,4 @@ ActiveRecord::Schema.define(version: 2018_12_07_120140) do
     t.datetime "updated_at", null: false
     t.string "api_key"
   end
-
 end

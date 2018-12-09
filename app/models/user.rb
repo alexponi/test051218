@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# class User
 class User < ApplicationRecord
   has_secure_password
   validates :email, uniqueness: true, presence: true, length: { maximum: 100 }
@@ -14,8 +15,8 @@ class User < ApplicationRecord
   # Generate a unique API key
   def generate_api_key
     loop do
-        token = SecureRandom.base64.tr('+/=', 'RST')
-        break token unless User.exists?(api_key: token)
+      token = SecureRandom.base64.tr('+/=', 'RST')
+      break token unless User.exists?(api_key: token)
     end
   end
 end

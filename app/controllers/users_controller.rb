@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require 'bcrypt'
 
+# API Users Controller
 class UsersController < ApplicationController
-
   def index
     @users = User.all
-    render json: json_string = UserSerializer.new(@users).serialized_json
+    render json: UserSerializer.new(@users).serialized_json
   end
 
   def create
@@ -13,20 +14,17 @@ class UsersController < ApplicationController
     if @user.save
       render json: { data: { id: @user.id,
                              password_digest: @user.password_digest,
-                             key: @user.api_key }
-                    }, status: :created
+                             key: @user.api_key } }, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   def show
-    begin
-      @user = User.find(params[:id])
-      render json: json_string = UserSerializer.new(@user).serialized_json
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    end
+    @user = User.find(params[:id])
+    render json: UserSerializer.new(@user).serialized_json
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   private
